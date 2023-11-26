@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse getOrdersById(long orderId) {
         Order order = orderRepository
                 .findById(orderId)
-                .orElseThrow(() -> new OrderServiceCustomException("Order details for this id not found", "NOT_FOUND"));
+                .orElseThrow(() -> new OrderServiceCustomException("Order details for this id not found", "NOT_FOUND",404));
         log.info("Order details retrieved with Order Id:{} successfully", order.getProductId());
         return OrderResponse
                 .builder()

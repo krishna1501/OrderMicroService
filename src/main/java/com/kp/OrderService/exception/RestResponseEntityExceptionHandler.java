@@ -18,6 +18,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity<>(ErrorResponse.builder()
                 .errorCode(orderServiceCustomException.getErrorCode())
                 .errorMessage(orderServiceCustomException.getMessage())
-                .build(), HttpStatus.NOT_FOUND);
+                .build(), HttpStatus.valueOf(orderServiceCustomException.getStatus()));
     }
 }
