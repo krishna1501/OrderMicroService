@@ -2,7 +2,9 @@ package com.kp.OrderService.service;
 
 import com.kp.OrderService.entity.Order;
 import com.kp.OrderService.exception.OrderServiceCustomException;
+import com.kp.OrderService.external.client.PaymentService;
 import com.kp.OrderService.external.client.ProductService;
+import com.kp.OrderService.external.request.PaymentRequest;
 import com.kp.OrderService.model.OrderRequest;
 import com.kp.OrderService.model.OrderResponse;
 import com.kp.OrderService.repository.OrderRepository;
@@ -19,6 +21,9 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private PaymentService paymentService;
+
 
     @Override
     public long placeOrder(OrderRequest orderRequest) {
@@ -28,6 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
         log.info("Order with Status CREATED");
         Order order = Order.builder()
+                .productId(orderRequest.getProductId())
                 .amount(orderRequest.getTotalAmount())
                 .orderStatus("CREATED")
                 .orderDate(Instant.now())
@@ -35,7 +41,28 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         order = orderRepository.save(order);
+        log.info("Calling payment service to complete the payment");
+        PaymentRequest paymentRequest = PaymentRequest
+                .builder()
+                .orderId(order.getId())
+                .paymentMode(orderRequest.getPaymentMode())
+                .amount(order.getAmount())
+                .build();
 
+        String orderStatus = null;
+
+        try {
+            paymentService.doPayment(paymentRequest);
+            log.info("Payment done Successfully. Changing the order status to placed");
+            orderStatus = "PLACED";
+        } catch (Exception e) {
+            log.error("Error occurred in payment. Changing order status to failed");
+            orderStatus = "PAYMENT_FAILED";
+        }
+
+        order.setOrderStatus(orderStatus);
+
+        orderRepository.save(order);
         log.info("Order Places Successfully with Order Id:{}", order.getId());
 
         return order.getId();
@@ -43,15 +70,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse getOrdersById(long orderId) {
+        log.info("Get order Details for order id: {}", orderId);
         Order order = orderRepository
                 .findById(orderId)
-                .orElseThrow(() -> new OrderServiceCustomException("Order details for this id not found", "NOT_FOUND",404));
+                .orElseThrow(() -> new OrderServiceCustomException("Order details for this id not found", "NOT_FOUND", 404));
+
         log.info("Order details retrieved with Order Id:{} successfully", order.getProductId());
         return OrderResponse
                 .builder()
                 .productId(order.getProductId())
                 .quantity(order.getQuantity())
                 .totalAmount(order.getAmount())
+                .orderStatus(order.getOrderStatus())
                 .build();
     }
 }

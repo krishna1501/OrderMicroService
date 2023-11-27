@@ -13,5 +13,6 @@ public class OrderResponse {
     private long productId;
     private long totalAmount;
     private long quantity;
+    private String orderStatus;
     private PaymentMode paymentMode;
 }
