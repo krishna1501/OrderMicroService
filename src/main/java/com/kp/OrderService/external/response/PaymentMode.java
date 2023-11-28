@@ -1,4 +1,4 @@
-package com.kp.OrderService.model;
+package com.kp.OrderService.external.response;
 
 public enum PaymentMode {
     CASH,

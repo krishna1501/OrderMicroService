@@ -1,5 +1,6 @@
 package com.kp.OrderService.model;
 
+import com.kp.OrderService.external.response.PaymentMode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
