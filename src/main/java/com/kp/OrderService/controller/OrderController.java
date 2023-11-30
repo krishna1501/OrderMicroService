@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Log4j2
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderController {
 	@Autowired
 	@Qualifier("orderServiceImpl")

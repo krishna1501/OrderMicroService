@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
 		log.info("Invoking Product service to fetch the product for id {}", order.getProductId());
 
 		ProductResponse productResponse = restTemplate.getForObject(
-				"http://PRODUCT-SERVICE/product" + order.getProductId(),
+				"http://PRODUCT-SERVICE/product/" + order.getId(),
 				ProductResponse.class
 		);
 
