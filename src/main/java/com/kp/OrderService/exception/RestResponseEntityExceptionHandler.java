@@ -12,12 +12,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 @Log4j2
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(OrderServiceCustomException.class)
-    public ResponseEntity<ErrorResponse> orderServiceCustomException(OrderServiceCustomException orderServiceCustomException) {
-        log.warn("Matching records NOT_FOUND");
-        return new ResponseEntity<>(ErrorResponse.builder()
-                .errorCode(orderServiceCustomException.getErrorCode())
-                .errorMessage(orderServiceCustomException.getMessage())
-                .build(), HttpStatus.valueOf(orderServiceCustomException.getStatus()));
-    }
+	@ExceptionHandler(OrderServiceCustomException.class)
+	public ResponseEntity<ErrorResponse> orderServiceCustomException(OrderServiceCustomException orderServiceCustomException) {
+		log.warn("Matching records NOT_FOUND");
+		return new ResponseEntity<>(ErrorResponse.builder()
+				.errorCode(orderServiceCustomException.getErrorCode())
+				.errorMessage(orderServiceCustomException.getMessage())
+				.build(), HttpStatus.valueOf(orderServiceCustomException.getStatus()));
+	}
 }

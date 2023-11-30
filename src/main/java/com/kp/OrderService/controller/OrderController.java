@@ -14,18 +14,19 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RequestMapping("/orders")
 public class OrderController {
-    @Autowired
-    @Qualifier("orderServiceImpl")
-    private OrderService orderService;
+	@Autowired
+	@Qualifier("orderServiceImpl")
+	private OrderService orderService;
 
-    @PostMapping("/placeOrder")
-    public ResponseEntity<Long> placeOrder(@RequestBody OrderRequest orderRequest){
-        long orderId = orderService.placeOrder(orderRequest);
-        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
-    }
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<OrderResponse> listOrdersById(@PathVariable("id") long orderId){
-        OrderResponse orderResponse = orderService.getOrdersById(orderId);
-        return new ResponseEntity<>(orderResponse,HttpStatus.OK);
-    }
+	@PostMapping("/placeOrder")
+	public ResponseEntity<Long> placeOrder(@RequestBody OrderRequest orderRequest) {
+		long orderId = orderService.placeOrder(orderRequest);
+		return new ResponseEntity<>(orderId, HttpStatus.CREATED);
+	}
+
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<OrderResponse> listOrdersById(@PathVariable("id") long orderId) {
+		OrderResponse orderResponse = orderService.getOrdersById(orderId);
+		return new ResponseEntity<>(orderResponse, HttpStatus.OK);
+	}
 }

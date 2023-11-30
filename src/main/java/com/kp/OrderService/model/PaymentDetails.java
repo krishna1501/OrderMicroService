@@ -13,11 +13,11 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 public class PaymentDetails {
-    private long paymentId;
-    private String status;
-    private PaymentMode paymentMode;
-    private long amount;
-    private Instant paymentDate;
-    private  long orderId;
+	private long paymentId;
+	private String status;
+	private PaymentMode paymentMode;
+	private long amount;
+	private Instant paymentDate;
+	private long orderId;
 
 }

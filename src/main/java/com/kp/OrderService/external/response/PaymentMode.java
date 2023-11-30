@@ -1,8 +1,8 @@
 package com.kp.OrderService.external.response;
 
 public enum PaymentMode {
-    CASH,
-    PAYPAL,
-    DEBIT_CARD,
-    CREDIT_CARD
+	CASH,
+	PAYPAL,
+	DEBIT_CARD,
+	CREDIT_CARD
 }
